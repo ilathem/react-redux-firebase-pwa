@@ -4,11 +4,22 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { FirebaseAppProvider } from 'reactfire';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDdqvP47pOeNtRggZJcxGOJKpyi7s_ZaPo",
+  authDomain: "task-manager-43d9a.firebaseapp.com",
+  projectId: "task-manager-43d9a",
+  storageBucket: "task-manager-43d9a.appspot.com",
+  messagingSenderId: "650092523205",
+  appId: "1:650092523205:web:34d9f12abd57c4155c4aac"
+};
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <App />
-  </React.StrictMode>
+  </FirebaseAppProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
