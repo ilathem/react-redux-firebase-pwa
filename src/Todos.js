@@ -1,22 +1,20 @@
-import { useFirestore, useFirestoreCollection } from "reactfire"
-import { collection } from "firebase/firestore";
+import { getDocs, query, collection } from 'firebase/firestore';
+
+import { db } from './index'
 
 export default function Todos() {
 
-  const firestore = useFirestore();
-  
-  const todosCollectionReference = collection(firestore, "todos");
+  const getTodos = async () => {
+    const querySnapshot = await getDocs(query(collection(db, 'todos')))
 
-  const { data, status } = useFirestoreCollection(todosCollectionReference)
-  
+    console.log(querySnapshot)
+    console.log(querySnapshot.getDocs())
+  }
+
   return (
     <>
       <h1>Todos</h1>
-      {status === 'success' ? data.docs.map(doc => (
-        <div key={doc.id}>
-          <p>{doc.data().content}</p>
-        </div>
-      )) : 'Loading'}
+      <button onClick={getTodos}>Get Todos</button>
     </>
   )
 }

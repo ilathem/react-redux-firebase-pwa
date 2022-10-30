@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { FirebaseAppProvider } from 'reactfire';
+import { initializeApp } from 'firebase/app'
+import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDdqvP47pOeNtRggZJcxGOJKpyi7s_ZaPo",
@@ -15,11 +16,22 @@ const firebaseConfig = {
   appId: "1:650092523205:web:34d9f12abd57c4155c4aac"
 };
 
+const app = initializeApp(firebaseConfig);
+
+export const db = getFirestore(app);
+
+enableIndexedDbPersistence(db)
+  .catch(err => {
+    err.code === 'failed-precondition' ? console.error("Offline persistence doesn't work with multiple tabs open") : 
+    err.code === 'unimplemented' ? console.error("Current browser doesn't support offline persistence") :
+    console.error("unknown error with offline persistence");
+  })
+  
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-    <App />
-  </FirebaseAppProvider>
+  <App />
 );
 
 // If you want to start measuring performance in your app, pass a function
